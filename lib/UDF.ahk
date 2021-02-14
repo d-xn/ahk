@@ -1,28 +1,28 @@
 ;; User Defined Functions
-; ÎÒ²»ÖªµÀÔõÑù²ÅÊÇ×îºÃµÄ±à³Ì·½·¨£¬ÓÚÊÇÖ»ÄÜÃş×ÅÊ¯Í·¹ıºÓ£¬²»¶ÏÊÔ´í£¬²»¶Ï¸Ä½ø¡£
+; æˆ‘ä¸çŸ¥é“æ€æ ·æ‰æ˜¯æœ€å¥½çš„ç¼–ç¨‹æ–¹æ³•ï¼Œäºæ˜¯åªèƒ½æ‘¸ç€çŸ³å¤´è¿‡æ²³ï¼Œä¸æ–­è¯•é”™ï¼Œä¸æ–­æ”¹è¿›ã€‚
 
 
 global ScriptNameNoExt
 SplitPath, A_ScriptName, , , , ScriptNameNoExt,
 global LogFileName := ScriptNameNoExt . ".log"
 
-; ÈÕÖ¾Êä³öº¯Êı£¬¸Ä±à×ÔAHKÎÄµµ
+; æ—¥å¿—è¾“å‡ºå‡½æ•°ï¼Œæ”¹ç¼–è‡ªAHKæ–‡æ¡£
 LogToFile(TextToLog)
 {
     global LogFileName
 
     static t := A_Now
-    FormatTime, t ,, yyyyÄêMÔÂddÈÕ dddd HH:mm:ss 
+    FormatTime, t ,, yyyyå¹´Mæœˆddæ—¥ dddd HH:mm:ss 
     FileAppend, %t%: %TextToLog%`n, %LogFileName%
 }
 
 ; ===========================================================================
 ;
-; Description:      ½«¸ÄÔìµÄ×Ö·û´®Êä³öµ½DebugView
+; Description:      å°†æ”¹é€ çš„å­—ç¬¦ä¸²è¾“å‡ºåˆ°DebugView
 ; Syntax:           Debug(Message)
-; Parameter(s):     $Message - Â·¾¶+ÎÄ¼şÃû
-; Requirement(s):   ÎŞ
-; Return Value(s):  ÎŞ
+; Parameter(s):     $Message - è·¯å¾„+æ–‡ä»¶å
+; Requirement(s):   æ— 
+; Return Value(s):  æ— 
 ; Author(s):        Dasn
 ;
 ; ===========================================================================
@@ -34,12 +34,12 @@ Debug(Message)
 {
     global DebugView
     if DebugView
-	; Êä³ö½Å±¾Ãû³Æ
-	; ¿ÉÒÔdebugViewÖĞ¿ÉÊ¹ÓÃ "*.ahk" ¹ıÂËµ÷ÊÔĞÅÏ¢£¬Ê¹µ÷ÊÔ±äµÃ·½±ã
+	; è¾“å‡ºè„šæœ¬åç§°
+	; å¯ä»¥debugViewä¸­å¯ä½¿ç”¨ "*.ahk" è¿‡æ»¤è°ƒè¯•ä¿¡æ¯ï¼Œä½¿è°ƒè¯•å˜å¾—æ–¹ä¾¿
 
 	if (InStr(Message, "`n"))
 	{
-	    ; ´Ë´¦ÓĞ¶àĞĞÎÄ±¾£¬Ã¿ĞĞÇ°Ãæ¶¼¼ÓÉÏ½Å±¾ÎÄ¼şÃû
+	    ; æ­¤å¤„æœ‰å¤šè¡Œæ–‡æœ¬ï¼Œæ¯è¡Œå‰é¢éƒ½åŠ ä¸Šè„šæœ¬æ–‡ä»¶å
 	    LineArray := StrSplit(Message, "`n")
 	    msgbox % LineArray.MaxIndex()
 
@@ -49,7 +49,7 @@ Debug(Message)
 		OutputDebug % A_ScriptName . ": " . RTrim(this_line, "`r")
 	    }
 	} else {
-	    ; µ¥ĞĞÎÄ±¾
+	    ; å•è¡Œæ–‡æœ¬
 	    OutputDebug % A_ScriptName . ": " . DebugFilter(Message)
 	}
 }
@@ -65,11 +65,11 @@ DebugFilter(StringToSend)
 
     if StringToSend is number
     {
-	ReportToDebugger := "Êı×Ö: " .  StringToSend
+	ReportToDebugger := "æ•°å­—: " .  StringToSend
 	goto END
     }
 
-    ; Èç¹ûÊÇ¶ÔÏó£¬½«¶ÔÏó×öÒ»²ã½âÎö£¬×ª»»³É×Ö·û´®Êä³ö
+    ; å¦‚æœæ˜¯å¯¹è±¡ï¼Œå°†å¯¹è±¡åšä¸€å±‚è§£æï¼Œè½¬æ¢æˆå­—ç¬¦ä¸²è¾“å‡º
     if IsObject(StringToSend) {
 	For index, value in StringToSend
 		ReportToDebugger .=  index ":" value ","
@@ -84,18 +84,18 @@ END:
     return ReportToDebugger
 }
 
-; Êä³ö°æ±¾µ÷ÊÔĞÅÏ¢
-Debug("ÔËĞĞAutoHotkey°æ±¾: v" . A_AhkVersion)
+; è¾“å‡ºç‰ˆæœ¬è°ƒè¯•ä¿¡æ¯
+Debug("è¿è¡ŒAutoHotkeyç‰ˆæœ¬: v" . A_AhkVersion)
 
 ; ===========================================================================
 ;
-; Description:      ·µ»ØÖ¸¶¨ÎÄ±¾ÎÄ¼şµÄĞĞÊı.
+; Description:      è¿”å›æŒ‡å®šæ–‡æœ¬æ–‡ä»¶çš„è¡Œæ•°.
 ; Syntax:           FileCountLines(sFilePath)
-; Parameter(s):     $sFilePath - Â·¾¶+ÎÄ¼şÃû
-; Requirement(s):   ÎŞ
-; Return Value(s):  ³É¹¦ - ·µ»ØÎÄ¼şµÄĞĞÊı
-;                   Ê§°Ü - ·µ»Ø0 ²¢ÉèÖÃ errorlevel = 1
-; Author(s):        Tylo <tylo at start dot no> ĞŞÕı by thesnow Converted by Thinkai
+; Parameter(s):     $sFilePath - è·¯å¾„+æ–‡ä»¶å
+; Requirement(s):   æ— 
+; Return Value(s):  æˆåŠŸ - è¿”å›æ–‡ä»¶çš„è¡Œæ•°
+;                   å¤±è´¥ - è¿”å›0 å¹¶è®¾ç½® errorlevel = 1
+; Author(s):        Tylo <tylo at start dot no> ä¿®æ­£ by thesnow Converted by Thinkai
 ;
 ; ===========================================================================
 FileCountLines(sFilePath){
@@ -119,7 +119,7 @@ FileCountLines(sFilePath){
  
 BringWindowToActive(WinTitle)
 {
-	;; °Ñ´°¿Ú·ÅÖÁ×îÇ°£¬±ãÓÚ²Ù×÷
+	;; æŠŠçª—å£æ”¾è‡³æœ€å‰ï¼Œä¾¿äºæ“ä½œ
 	IfWinExist, %WinTitle%
 	{
         
@@ -129,7 +129,7 @@ BringWindowToActive(WinTitle)
 	}
 	else
 	{
-		Debug(A_ThisFunc . ":²éÕÒ´°¿Ú '" . WinTitle . "' Ê§°Ü")
+		Debug(A_ThisFunc . ":æŸ¥æ‰¾çª—å£ '" . WinTitle . "' å¤±è´¥")
 	}
 }
  
