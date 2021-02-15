@@ -76,20 +76,24 @@ FilterTxtFile(fileName)
 ;; 构建图形界面
 ;;;;;;;;;;;;;;;;;;;;
 
+; 设置脚本图标
+Menu, Tray, Icon, Shell32.dll,131, ; 
+; Menu, Tray, Icon, Shell32.dll,132,1
+Menu, Tray, Tip, 线路自动巡检脚本
+
 Gui, Add, Text,, 坐标文件:
 Gui, Add, Edit, R1 vMyEdit
 Gui, Add, Button, x150 y22 h25 w40, 选择
 Gui, Add, Checkbox, x12 y50 h20 w90 vMySemiAuto, 半自动执行
 Gui, Add, Button, x12 y75 h20 w180, 开始
+
 ;; 设置EDIT的默认值
 GuiControl,, MyEdit, %A_ScriptDir%\经纬度.txt
-;Gui, Show,x300 y250 h100 w200, 自动测速程序
 xpos := A_ScreenWidth / 2 - 150
 ypos := A_ScreenHeight / 2 - 150
 
 Gui, Show, x%xpos% y%ypos% h100 w200, 自动巡检程序
 GuiControl, Focus, 开始
-;WinMove,自动测速程序,, % A_ScreenWidth/2-150, % A_ScreenHeight/2-150,,
 Return
 
 Button选择:
@@ -109,6 +113,7 @@ Button开始:
 	; MsgBox, 8192, 提示!!!, 请先解绑帐号，点击确定开始测速
 	Gui, Hide
 	Start(MyEdit, a_checked)
+	MsgBox, 巡检完成
 	ExitApp
 
 GuiClose:
@@ -130,6 +135,8 @@ Start(myedit, mychecked)
     	; <BS> 键 KEYCODE_DEL (67)
     	StrKeys .= "KEYCODE_DEL "
     }
+
+    ; 获取文件中的坐标，生成数组
     a := FilterTxtFile(myedit)
     for i, v in a
     {
@@ -181,7 +188,7 @@ Start(myedit, mychecked)
 	AdbShell("input keyevent KEYCODE_BACK")
 	sleep 1000
 
-	; 点击√，开始模拟
+	; 点击√，开始模拟位置
 	AdbShell("input tap 627 1190")
 	if (mychecked)
 	{
